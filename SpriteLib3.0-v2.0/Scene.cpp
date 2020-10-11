@@ -54,29 +54,29 @@ void Scene::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Camera>(entity).Orthographic(aspectRatio, temp.x, temp.y, temp.z, temp.w, -100.f, 100.f);
 	}
 
-	//Setup new Entity
-	{
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-		m_helloWorldSign = entity;
+	////Setup new Entity
+	//{
+	//	//Creates entity
+	//	auto entity = ECS::CreateEntity();
+	//	m_helloWorldSign = entity;
 
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+	//	//Add components
+	//	ECS::AttachComponent<Sprite>(entity);
+	//	ECS::AttachComponent<Transform>(entity);
 
-		//Sets up components
-		std::string fileName = "HelloWorld.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
-	}
+	//	//Sets up components
+	//	std::string fileName = "HelloWorld.png";
+	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
+	//	ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
+	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
+	//}
 }
 
 void Scene::Update()
 {
-	auto& tempSpr = m_sceneReg->get<Sprite>(m_helloWorldSign);
+	/*auto& tempSpr = m_sceneReg->get<Sprite>(m_helloWorldSign);
 	
-	tempSpr.SetTransparency((0.5 * sin(Timer::time * 3.f)) + 0.5f);
+	tempSpr.SetTransparency((0.5 * sin(Timer::time * 3.f)) + 0.5f);*/
 }
 
 void Scene::AdjustScrollOffset()
