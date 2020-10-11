@@ -1,5 +1,6 @@
 #include "BackEnd.h"
 
+//TEST AARON
 Window* BackEnd::m_window = nullptr;
 
 GLsizei BackEnd::m_windowWidth = 0;
