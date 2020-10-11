@@ -97,49 +97,23 @@ public:
 		/*for (int i = 0; i < animationsNames.size(); i++)
 		{
 		m_animController->AddAnimation(animations[animationsNames[i]].get<Animation>());
-		}*/
-		m_animController->AddAnimation(animations["IdleLeft"].get<Animation>());
-		m_animController->AddAnimation(animations["IdleRight"].get<Animation>());
-		m_animController->AddAnimation(animations["WalkLeft"].get<Animation>());
-		m_animController->AddAnimation(animations["WalkRight"].get<Animation>());
+		}*/\
+		
+		m_animController->AddAnimation(animations["IdleLeft"].get<Animation>()); //value of 0
+		m_animController->AddAnimation(animations["IdleRight"].get<Animation>()); //value of 1
+		m_animController->AddAnimation(animations["RunLeft"].get<Animation>()); //value of 2+0 = 2
+		m_animController->AddAnimation(animations["RunRight"].get<Animation>()); //value of 2+1 = 3
+		m_animController->AddAnimation(animations["JumpDownLeft"].get<Animation>());
+		m_animController->AddAnimation(animations["JumpDownRight"].get<Animation>());
+		m_animController->AddAnimation(animations["JumpUpLeft"].get<Animation>());
+		m_animController->AddAnimation(animations["JumpUpRight"].get<Animation>());
 
-//		//Idle left
-//		m_animController->AddAnimation(animations["IdleLeft"].get<Animation>());
-//		//idle right
-//		m_animController->AddAnimation(animations["IdleRight"].get<Animation>());
-//#ifdef TOPDOWN
-//		//idle up
-//		m_animController->AddAnimation(animations["IdleUp"].get<Animation>());
-//		//idle down
-//		m_animController->AddAnimation(animations["IdleDown"].get<Animation>());
-//#endif
-//		//walk animations
-//		//walkleft
-//		m_animController->AddAnimation(animations["WalkLeft"].get<Animation>());
-//		//walk right
-//		m_animController->AddAnimation(animations["WalkRight"].get<Animation>());
-//#ifdef TOPDOWN
-//		//waluup
-//		m_animController->AddAnimation(animations["WalkUp"].get <Animation>());
-//		//walk down
-//		m_animController->AddAnimation(animations["WalkDown"].get<Animation>());
-//#endif
-//		//attack animation\\
-//			/attackleft
-//		m_animController->AddAnimation(animations["AttackLeft"].get<Animation>());
-//		//attack right
-//		m_animController->AddAnimation(animations["AttackRight"].get<Animation>());
-//#ifdef TOPDOWN
-//		//attackup
-//		m_animController->AddAnimation(animations["AttackUp"].get<Animation>());
-//		//attack down
-//		m_animController->AddAnimation(animations["AttackDown"].get<Animation>());
-//#endif
+
 //
 //		//set default animation
-//		m_animController->SetActiveAnim(IDLELEFT);
+		m_animController->SetActiveAnim(IDLELEFT);
 //
-		m_animController->SetActiveAnim(0);
+		//m_animController->SetActiveAnim(0);
 
 	}
 

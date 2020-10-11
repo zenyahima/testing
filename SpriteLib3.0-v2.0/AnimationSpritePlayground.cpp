@@ -55,7 +55,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//setup link
+	//setup sprite guy
 	{
 		auto entity = ECS::CreateEntity();
 		ECS::SetIsMainPlayer(entity, true);
@@ -66,9 +66,9 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<AnimationController>(entity);
 
 		//set up components
-		std::string fileName = "spritesheets/spritesheet2.png";
-		std::string animations = "spritesheet2.json";
-		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 40, 40, &ECS::GetComponent<Sprite>(entity), 
+		std::string fileName = "spritesheets/guy.png";
+		std::string animations = "spritesheet_math2.json";
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 30, 40, &ECS::GetComponent<Sprite>(entity), 
 			&ECS::GetComponent<AnimationController>(entity),
 			&ECS::GetComponent<Transform>(entity));
 

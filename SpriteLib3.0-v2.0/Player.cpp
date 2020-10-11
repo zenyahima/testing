@@ -140,24 +140,7 @@ void Player::AnimationUpdate()
 
 void Player::SetActiveAnimation(int anim)
 {
-	//walk right
-	if (anim == 3 )
-	{
-		m_animController->SetActiveAnim(3);
-	}
-	//walk left
-	else if (anim == 2)
-	{
-		m_animController->SetActiveAnim(2);
-	}
-	//idle right
-	else if (anim == 1)
-	{
-		m_animController->SetActiveAnim(1);
-	}
-	else
-		m_animController->SetActiveAnim(0);
 	//goes through the array from "addanimations", the order added corresponds to a number
 
-	//m_animController->SetActiveAnim(anim);
+	m_animController->SetActiveAnim(anim);
 }
