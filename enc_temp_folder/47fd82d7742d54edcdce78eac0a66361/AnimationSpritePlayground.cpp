@@ -67,7 +67,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		//set up components
 		std::string fileName = "spritesheets/guy.png";
 		std::string animations = "spritesheet_math2.json";
-		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 30, 40, &ECS::GetComponent<Sprite>(entity)) 
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 30, 40, &ECS::GetComponent<Sprite>(entity), 
 			&ECS::GetComponent<AnimationController>(entity),
 			&ECS::GetComponent<Transform>(entity));
 
