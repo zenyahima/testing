@@ -91,18 +91,23 @@ void Player::MovementUpdate()
 			m_moving = true;
 
 		}
-	}
-	if (Input::GetKeyDown(Key::Space))
-	{
-		m_moving = false;
-		if (m_hasPhysics)
+
+		if (Input::GetKeyDown(Key::Space))
 		{
-			m_physBody->SetVelocity(vec3());
+			//might have to improve this-> will def need to improve
+			m_transform->SetPositionY(m_transform->GetPositionY() + (speed * Timer::deltaTime));
+			m_moving = false;
+			/*if (m_hasPhysics)
+			{
+				m_physBody->SetVelocity(vec3());
+
+			}*/
+			//m_attacking = true;
+			m_locked = true;
+			m_jumping = true;
+			
 
 		}
-		m_attacking = true;
-		m_locked = true;
-
 	}
 }
 
@@ -117,7 +122,7 @@ void Player::AnimationUpdate()
 	}
 	else if (m_attacking)
 	{
-		activeAnimation = ATTACK;
+		//activeAnimation = ATTACK;
 
 		//check if the attack animation is done
 		if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
@@ -130,6 +135,23 @@ void Player::AnimationUpdate()
 
 			activeAnimation = IDLE;
 		}
+	}
+	//might need to change this too
+	else if (m_jumping)
+	{
+		activeAnimation = JUMPUP;
+		//check if the jump animation is done
+		if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
+		{
+			//will auto set to idle
+			m_locked = false;
+			m_jumping = false;
+			//resets the attack animation
+			m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
+
+			activeAnimation = IDLE;
+		}
+
 	}
 	else
 	{

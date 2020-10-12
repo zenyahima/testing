@@ -47,7 +47,7 @@ enum AnimTypes
 #ifndef TOPDOWN
 	IDLE = 0,
 	WALK = 2,
-	ATTACK = 4
+	JUMPUP = 4
 #endif
 };
 
@@ -103,11 +103,10 @@ public:
 		m_animController->AddAnimation(animations["IdleRight"].get<Animation>()); //value of 1
 		m_animController->AddAnimation(animations["RunLeft"].get<Animation>()); //value of 2+0 = 2
 		m_animController->AddAnimation(animations["RunRight"].get<Animation>()); //value of 2+1 = 3
+		m_animController->AddAnimation(animations["JumpUpLeft"].get<Animation>());//value of 4+0 = 4
+		m_animController->AddAnimation(animations["JumpUpRight"].get<Animation>()); // value of 4+1 = 5
 		m_animController->AddAnimation(animations["JumpDownLeft"].get<Animation>());
 		m_animController->AddAnimation(animations["JumpDownRight"].get<Animation>());
-		m_animController->AddAnimation(animations["JumpUpLeft"].get<Animation>());
-		m_animController->AddAnimation(animations["JumpUpRight"].get<Animation>());
-
 
 //
 //		//set default animation
@@ -126,6 +125,8 @@ private:
 
 	//Basically, any animation OTHER than moving will not have a cancel, and we'll be checking whether or not that animation is done
 	bool m_moving = false;
+	//are you currently jumping
+	bool m_jumping = false;
 	//Are you currently attacking?????
 	bool m_attacking = false;
 	//Have we locked the player from moving during this animation?

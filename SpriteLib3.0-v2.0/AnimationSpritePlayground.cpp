@@ -41,19 +41,19 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//setup helloworld sign
-	{
-		auto entity = ECS::CreateEntity();
+	////setup helloworld sign
+	//{
+	//	auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+	//	ECS::AttachComponent<Sprite>(entity);
+	//	ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "HelloWorld.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.8f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
+	//	std::string fileName = "HelloWorld.png";
+	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
+	//	ECS::GetComponent<Sprite>(entity).SetTransparency(0.8f);
+	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
 
-	}
+	//}
 
 	//setup sprite guy
 	{
