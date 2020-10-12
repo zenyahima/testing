@@ -118,21 +118,8 @@ void Game::GUI()
 
 void Game::CheckEvents()
 {
-	if (m_activeScene == m_scenes[2] && m_close)
-	{
-		m_activeScene = m_scenes[0];
-
-		m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
-
-		//Sets m_register to point to the register in the active scene
-		m_register = m_activeScene->GetScene();
-
-		BackEnd::SetWindowName(m_activeScene->GetName());
-
-		PhysicsSystem::Init();
-		
-	}
-	else if (m_close) {
+	
+	if (m_close) {
 		m_window->Close();
 	}
 

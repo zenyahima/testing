@@ -135,7 +135,7 @@ void Player::MovementUpdate()
 		if (Input::GetKey(Key::A))
 		{
 			m_transform->SetPositionX(m_transform->GetPositionX() - (speed * Timer::deltaTime));
-			std::cout << "Character is moving";
+			
 			m_facing = LEFT;
 			m_moving = true;
 		}
@@ -143,7 +143,7 @@ void Player::MovementUpdate()
 		{
 			m_transform->SetPositionX(m_transform->GetPositionX() + (speed * Timer::deltaTime));
 			m_facing = RIGHT;
-			std::cout << "Character is moving";
+			
 			m_moving = true;
 
 		}
