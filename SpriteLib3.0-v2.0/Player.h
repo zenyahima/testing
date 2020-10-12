@@ -69,57 +69,11 @@ public:
 	Player(std::string& fileName, std::string& animationJSON, int width, int height, 
 		Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr);
 
-	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, 
-		Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr)
-	{
-		//store references to the components
-		m_sprite = sprite;
-		m_animController = controller;
-		m_transform = transform;
-		m_hasPhysics = hasPhys;
-		if (hasPhys)
-		{
-			m_physBody = body;
-		}
-		//initialize UVs
-		m_animController->InitUVs(fileName);
-
-		//loads the texture and sets width and height
-		m_sprite->LoadSprite(fileName, width, height, true, m_animController);
-		m_animController->SetVAO(m_sprite->GetVAO());
-		m_animController->SetTextureSize(m_sprite->GetTextureSize());
-
-		//loads in the animations
-		nlohmann::json animations = File::LoadJSON(animationJSON);
-
-		//idle animations\\
-
-		/*for (int i = 0; i < animationsNames.size(); i++)
-		{
-		m_animController->AddAnimation(animations[animationsNames[i]].get<Animation>());
-		}*/\
-		
-		m_animController->AddAnimation(animations["IdleLeft"].get<Animation>()); //value of 0
-		m_animController->AddAnimation(animations["IdleRight"].get<Animation>()); //value of 1
-		m_animController->AddAnimation(animations["RunLeft"].get<Animation>()); //value of 2+0 = 2
-		m_animController->AddAnimation(animations["RunRight"].get<Animation>()); //value of 2+1 = 3
-		m_animController->AddAnimation(animations["JumpUpLeft"].get<Animation>());//value of 4+0 = 4
-		m_animController->AddAnimation(animations["JumpUpRight"].get<Animation>()); // value of 4+1 = 5
-		m_animController->AddAnimation(animations["JumpDownLeft"].get<Animation>());
-		m_animController->AddAnimation(animations["JumpDownRight"].get<Animation>());
-
-//
-//		//set default animation
-		m_animController->SetActiveAnim(IDLELEFT);
-//
-		//m_animController->SetActiveAnim(0);
-
-	}
+	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr);
 
 	void Update();
 	void MovementUpdate();
 	void AnimationUpdate();
-
 private:
 	void SetActiveAnimation(int anim);
 
