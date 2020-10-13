@@ -35,7 +35,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Camera>(entity).SetOrthoSize(temp);
 		ECS::GetComponent<Camera>(entity).SetWindowSize(vec2(float(windowWidth), float(windowHeight)));
 		ECS::GetComponent<Camera>(entity).Orthographic(aspectRatio, temp.x, temp.y, temp.z, temp.w, -100.f, 100.f);
-		
+
 		ECS::GetComponent<HorizontalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 
@@ -69,10 +69,10 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		//set up components
 		std::string fileName = "spritesheets/guy.png";
 		std::string animations = "spritesheet_math2.json";
-		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 30, 40, &ECS::GetComponent<Sprite>(entity),
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 20, 25, &ECS::GetComponent<Sprite>(entity),
 			&ECS::GetComponent<AnimationController>(entity),
 			&ECS::GetComponent<Transform>(entity));
-				
+
 
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
 
@@ -92,7 +92,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
 		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
-				
+
 
 	}
 
@@ -235,7 +235,7 @@ void AnimationSpritePlayground::Update()
 
 void AnimationSpritePlayground::KeyboardHold()
 {
-	
+
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	float speed = 10.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
@@ -266,7 +266,7 @@ void AnimationSpritePlayground::KeyboardHold()
 	{
 		vel += b2Vec2(0.f, 50.f);
 	}
-	
+
 
 	player.GetBody()->SetLinearVelocity(speed * vel);
 }

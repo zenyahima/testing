@@ -11,7 +11,7 @@ enum AnimEnums
 {
 	IDLELEFT,
 	IDLERIGHT,
-	
+
 	//Only in Top down
 #ifdef TOPDOWN
 	IDLEUP,
@@ -26,7 +26,7 @@ enum AnimEnums
 	WALKUP,
 	WALKDOWN,
 #endif
-	
+
 	ATTACKLEFT,
 	ATTACKRIGHT,
 
@@ -66,7 +66,7 @@ class Player
 {
 public:
 	Player();
-	Player(std::string& fileName, std::string& animationJSON, int width, int height, 
+	Player(std::string& fileName, std::string& animationJSON, int width, int height,
 		Sprite* sprite, AnimationController* controller, Transform* transform);
 
 	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, AnimationController* controller, Transform* transform);

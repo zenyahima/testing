@@ -4,7 +4,7 @@ Player::Player()
 {
 }
 
-Player::Player(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, 
+Player::Player(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite,
 	AnimationController* controller, Transform* transform)
 {
 	InitPlayer(fileName, animationJSON, width, height, sprite, controller, transform);
@@ -16,7 +16,7 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	m_sprite = sprite;
 	m_animController = controller;
 	m_transform = transform;
-	
+
 	//initialize UVs
 	m_animController->InitUVs(fileName);
 
@@ -155,7 +155,7 @@ void Player::MovementUpdate()
 			//m_attacking = true;
 			m_locked = true;
 			m_jumping = true;
-			
+
 
 		}
 	}
