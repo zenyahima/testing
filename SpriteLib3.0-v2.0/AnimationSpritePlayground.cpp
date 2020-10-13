@@ -40,7 +40,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//setup helloworld sign
+	//setup end of level Flag
 	{
 		auto entity = ECS::CreateEntity();
 

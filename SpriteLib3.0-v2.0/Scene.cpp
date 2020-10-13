@@ -154,6 +154,7 @@ void Scene::BoxMaker(int spriteSizeX, int spriteSizeY, float positionX, float po
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 	tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
+	
 }
 
 entt::registry* Scene::GetScene() const
