@@ -4,7 +4,7 @@ Player::Player()
 {
 }
 
-Player::Player(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, 
+Player::Player(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite,
 	AnimationController* controller, Transform* transform)
 {
 	InitPlayer(fileName, animationJSON, width, height, sprite, controller, transform);
@@ -16,7 +16,7 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	m_sprite = sprite;
 	m_animController = controller;
 	m_transform = transform;
-	
+
 	//initialize UVs
 	m_animController->InitUVs(fileName);
 
@@ -67,6 +67,10 @@ void Player::Update()
 	//	MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
 	//	exit(0);
 	//}
+}
+bool Player::IsLocked()
+{
+	return m_locked;
 }
 
 void Player::MovementUpdate()
@@ -146,23 +150,36 @@ void Player::MovementUpdate()
 
 		if (Input::GetKeyDown(Key::Space))
 		{
-			//might have to improve this-> will def need to improve
-			m_transform->SetPositionY(m_transform->GetPositionY() + (speed * Timer::deltaTime));
-			m_moving = false;
-			/*if (m_hasPhysics)
-			{
-				m_physBody->SetVelocity(vec3());
+			////might have to improve this-> will def need to improve
+			//m_transform->SetPositionY(m_transform->GetPositionY() + (speed * Timer::deltaTime));
+			//m_moving = false;
+			///*if (m_hasPhysics)
+			//{
+			//	m_physBody->SetVelocity(vec3());
 
-			}*/
-			//m_attacking = true;
-			m_locked = true;
-			m_jumping = true;
-			
+			//}*/
+			////m_attacking = true;
+			//m_locked = true;
+			//m_jumping = true;
+
 
 		}
 	}
 	
 }
+void Player::SetMoving(bool move)
+{
+	m_moving = move;
+}
+void Player::SetLocked(bool lock)
+{
+	m_locked = lock;
+}
+void Player::SetJumping(bool jump)
+{
+	m_jumping = jump;
+}
+
 
 void Player::AnimationUpdate()
 {
@@ -199,7 +216,7 @@ void Player::AnimationUpdate()
 			//will auto set to idle
 			m_locked = false;
 			m_jumping = false;
-			//resets the attack animation
+			//resets the jump animation
 			m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
 
 			activeAnimation = IDLE;
