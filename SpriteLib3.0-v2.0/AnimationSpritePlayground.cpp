@@ -77,19 +77,19 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	////setup helloworld sign
-	//{
-	//	auto entity = ECS::CreateEntity();
+	//setup end of level Flag
+	{
+		auto entity = ECS::CreateEntity();
 
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
 
-	//	std::string fileName = "HelloWorld.png";
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
-	//	ECS::GetComponent<Sprite>(entity).SetTransparency(0.8f);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
+		std::string fileName = "flag.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 307.f, 0.f));
 
-	//}
+	}
 
 	//setup sprite guy
 	{
@@ -105,7 +105,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		//set up components
 		std::string fileName = "spritesheets/guy.png";
 		std::string animations = "spritesheet_math2.json";
-		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 20, 25, &ECS::GetComponent<Sprite>(entity),
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 12, 16, &ECS::GetComponent<Sprite>(entity),
 			&ECS::GetComponent<AnimationController>(entity),
 			&ECS::GetComponent<Transform>(entity));
 
@@ -152,207 +152,35 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	////Setup GROUND (static box 1)
-	//{
-	//	//Creates entity 
-	//	auto entity = ECS::CreateEntity();
+	//
+	//ground
+	Scene::BoxMaker(450, 35, 30, -20, 0, 1); 
 
-	//	//Add components 
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	//ECS::AttachComponent<PhysicsBody>(entity);
+	//boundaries
+	Scene::BoxMaker(10, 2000, -125, -0, 0, 0);
+	Scene::BoxMaker(10, 2000, 125, 0, 0, 0);
 
-	//	//Sets up components 
-	//	std::string fileName = "boxSprite.jpg";
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 450, 50);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 2.f));
-
-	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-	//	float shrinkX = 0.f;
-	//	float shrinkY = 0.f;
-	//	b2Body* tempBody;
-	//	b2BodyDef tempDef;
-	//	tempDef.type = b2_staticBody;
-	//	tempDef.position.Set(float32(30.f), float32(-20.f));
-
-		////shape definition
-		//b2PolygonShape polygonShape;
-		//polygonShape.SetAsBox(1, 1);
-		////fixture definition
-		//b2FixtureDef myFixtureDef;
-		//myFixtureDef.shape = &polygonShape;
-		//myFixtureDef.density = 1;
-
-	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		//add main fixture
-		//myFixtureDef.isSensor = true;
-		//b2Fixture* fixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
-		//fixture->SetUserData((void*)1);
-		//polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0, -2), 0);
-	//	tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-
-
-
-	//Setup LEFT BOUNDARY (static box 2)
-	{
-		//Creates entity 
-		auto entity = ECS::CreateEntity();
-
-		//Add components 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-
-		//Sets up components 
-		std::string fileName = "ground.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 2000);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0;
-		float shrinkY = 0();
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-125.f), float32(0.f));
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-
-	}
-
-	//Setup RIGHT BOUNDARY (static box 3)
-	{
-		//Creates entity 
-		auto entity = ECS::CreateEntity();
-
-		//Add components 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-
-		//Sets up components 
-		std::string fileName = "ground.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 2000);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(125.f), float32(0.f));
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-
-	}
-
-	//}
-//
-//	//Setup LEFT BOUNDARY (static box 2)
-//	{
-//		//Creates entity 
-//		auto entity = ECS::CreateEntity();
-//
-//		//Add components 
-//		ECS::AttachComponent<Sprite>(entity);
-//		ECS::AttachComponent<Transform>(entity);
-//		ECS::AttachComponent<PhysicsBody>(entity);
-//
-//		//Sets up components 
-//		std::string fileName = "boxSprite.jpg";
-//		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 2000);
-//		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
-//
-//		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-//		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-//
-//		float shrinkX = 0.f;
-//		float shrinkY = 0.f;
-//		b2Body* tempBody;
-//		b2BodyDef tempDef;
-//		tempDef.type = b2_staticBody;
-//		tempDef.position.Set(float32(-125.f), float32(0.f));
-//
-//		tempBody = m_physicsWorld->CreateBody(&tempDef);
-//
-//		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-//
-//	}
-//
-//	//Setup RIGHT BOUNDARY (static box 3)
-//	{
-//		//Creates entity 
-//		auto entity = ECS::CreateEntity();
-//
-//		//Add components 
-//		ECS::AttachComponent<Sprite>(entity);
-//		ECS::AttachComponent<Transform>(entity);
-//		ECS::AttachComponent<PhysicsBody>(entity);
-//
-//		//Sets up components 
-//		std::string fileName = "boxSprite.jpg";
-//		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 2000);
-//		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
-//
-//		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-//		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-//
-//		float shrinkX = 0.f;
-//		float shrinkY = 0.f;
-//		b2Body* tempBody;
-//		b2BodyDef tempDef;
-//		tempDef.type = b2_staticBody;
-//		tempDef.position.Set(float32(125.f), float32(0.f));
-//
-//		tempBody = m_physicsWorld->CreateBody(&tempDef);
-//
-//		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-//
-//	}
-//
-	//Setup PLATFORM 1 (static box 4)
-	{
-		//Creates entity 
-		auto entity = ECS::CreateEntity();
-
-		//Add components 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-
-		//Sets up components 
-		std::string fileName = "boxSprite.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 65, 10);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(0.f), float32(50.f));
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-
-	}
-
+	//platforms
+	Scene::BoxMaker(20, 3, -75, 25, 0, 1);
+	Scene::BoxMaker(20, 3, -25, 40, 0, 1);
+	Scene::BoxMaker(20, 3, -75, 55, 0, 1);
+	Scene::BoxMaker(20, 3, -25, 70, 0, 1);
+	Scene::BoxMaker(20, 3, 25, 85, 0, 1);
+	Scene::BoxMaker(20, 3, 75, 85, 0, 1);
+	Scene::BoxMaker(20, 3, 105, 105, 0, 1);
+	Scene::BoxMaker(20, 3, 65, 125, 0, 1);
+	Scene::BoxMaker(20, 3, 35, 145, 0, 1);
+	Scene::BoxMaker(20, 3, -20, 145, 0, 1);
+	Scene::BoxMaker(5, 3, -55, 160, 0, 1);
+	Scene::BoxMaker(5, 3, -90, 175, 0, 1);
+	Scene::BoxMaker(20, 3, -40, 190, 0, 1);
+	Scene::BoxMaker(70, 3, 40, 205, 0, 1);
+	Scene::BoxMaker(20, 3, 105, 220, 0, 1);
+	Scene::BoxMaker(20, 3, 70, 240, 0, 1);
+	Scene::BoxMaker(20, 3, 35, 255, 0, 1);
+	Scene::BoxMaker(40, 3, -15, 275, 325, 1);
+	Scene::BoxMaker(60, 3, -80, 300, 0, 1);
+	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 //

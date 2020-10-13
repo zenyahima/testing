@@ -41,6 +41,9 @@ public:
 	virtual void KeyboardDown() { };
 	virtual void KeyboardUp() { };
 
+	//create boxes
+	void BoxMaker(int spriteSizeX, int spriteSizeY, float positionX, float positionY, int angle, float transparency);
+
 	//Mouse Input
 	//Because these are virtual you can override them in your inherited classes.
 	//The same way you do for Update().
