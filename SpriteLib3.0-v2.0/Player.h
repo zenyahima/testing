@@ -67,9 +67,9 @@ class Player
 public:
 	Player();
 	Player(std::string& fileName, std::string& animationJSON, int width, int height, 
-		Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr);
+		Sprite* sprite, AnimationController* controller, Transform* transform);
 
-	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr);
+	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, AnimationController* controller, Transform* transform);
 
 	void Update();
 	void MovementUpdate();

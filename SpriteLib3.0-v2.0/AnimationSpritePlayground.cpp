@@ -6,7 +6,7 @@ AnimationSpritePlayground::AnimationSpritePlayground(std::string name)
 {
 
 	//no gravity this is a top down scene
-	m_gravity = b2Vec2(0.f, 0.f);
+	m_gravity = b2Vec2(0.f, -800.f);
 	m_physicsWorld->SetGravity(m_gravity);
 
 }
@@ -71,7 +71,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		std::string animations = "spritesheet_math2.json";
 		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 30, 40, &ECS::GetComponent<Sprite>(entity),
 			&ECS::GetComponent<AnimationController>(entity),
-			&ECS::GetComponent<Transform>(entity), true, &ECS::GetComponent<PhysicsBody>(entity));
+			&ECS::GetComponent<Transform>(entity));
 				
 
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
@@ -93,13 +93,10 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
 		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
 				
-		
 
-		
-		////
 	}
 
-	//Setup static BOX (ground)
+	//Setup GROUND (static box 1)
 	{
 		//Creates entity 
 		auto entity = ECS::CreateEntity();
@@ -111,7 +108,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up components 
 		std::string fileName = "ground.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 2000, 10);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 450, 50);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 2.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -130,7 +127,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//Setup static BOX 2
+	//Setup LEFT BOUNDARY (static box 2)
 	{
 		//Creates entity 
 		auto entity = ECS::CreateEntity();
@@ -142,7 +139,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up components 
 		std::string fileName = "ground.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 60);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 2000);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -153,7 +150,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(30.f), float32(10.f));
+		tempDef.position.Set(float32(-125.f), float32(0.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -161,7 +158,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//Setup static BOX 3
+	//Setup RIGHT BOUNDARY (static box 3)
 	{
 		//Creates entity 
 		auto entity = ECS::CreateEntity();
@@ -173,7 +170,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up components 
 		std::string fileName = "ground.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 40);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 2000);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -184,7 +181,38 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-30.f), float32(0.f));
+		tempDef.position.Set(float32(125.f), float32(0.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
+
+	}
+
+	//Setup PLATFORM 1 (static box 4)
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components 
+		std::string fileName = "ground.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 65, 10);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(0.f), float32(50.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -207,6 +235,40 @@ void AnimationSpritePlayground::Update()
 
 void AnimationSpritePlayground::KeyboardHold()
 {
+	
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	float speed = 10.f;
+	b2Vec2 vel = b2Vec2(0.f, 0.f);
+
+	if (Input::GetKey(Key::Shift))
+	{
+		speed *= 7.f;
+	}
+
+	/*if (Input::GetKey(Key::W))
+	{
+		vel += b2Vec2(0.f, 1.f);
+	}*/
+	/*if (Input::GetKey(Key::S))
+	{
+		vel += b2Vec2(0.f, -1.f);
+	}*/
+
+	if (Input::GetKey(Key::A))
+	{
+		vel += b2Vec2(-1.f, 0.f);
+	}
+	if (Input::GetKey(Key::D))
+	{
+		vel += b2Vec2(1.f, 0.f);
+	}
+	if (Input::GetKey(Key::Space))
+	{
+		vel += b2Vec2(0.f, 50.f);
+	}
+	
+
+	player.GetBody()->SetLinearVelocity(speed * vel);
 }
 
 void AnimationSpritePlayground::KeyboardDown()
