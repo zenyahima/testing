@@ -62,16 +62,36 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Player>(entity);
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<AnimationController>(entity);
 
 		//set up components
 		std::string fileName = "spritesheets/guy.png";
 		std::string animations = "spritesheet_math2.json";
-		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 30, 40, &ECS::GetComponent<Sprite>(entity), 
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 30, 40, &ECS::GetComponent<Sprite>(entity),
 			&ECS::GetComponent<AnimationController>(entity),
 			&ECS::GetComponent<Transform>(entity));
+				
 
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(0.f), float32(30.f));
+		//tempDef.angle = Transform::ToRadians(45.f);
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
+		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
+				
 
 	}
 
@@ -214,6 +234,40 @@ void AnimationSpritePlayground::Update()
 
 void AnimationSpritePlayground::KeyboardHold()
 {
+	
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	float speed = 10.f;
+	b2Vec2 vel = b2Vec2(0.f, 0.f);
+
+	if (Input::GetKey(Key::Shift))
+	{
+		speed *= 7.f;
+	}
+
+	/*if (Input::GetKey(Key::W))
+	{
+		vel += b2Vec2(0.f, 1.f);
+	}*/
+	/*if (Input::GetKey(Key::S))
+	{
+		vel += b2Vec2(0.f, -1.f);
+	}*/
+
+	if (Input::GetKey(Key::A))
+	{
+		vel += b2Vec2(-1.f, 0.f);
+	}
+	if (Input::GetKey(Key::D))
+	{
+		vel += b2Vec2(1.f, 0.f);
+	}
+	if (Input::GetKey(Key::Space))
+	{
+		vel += b2Vec2(0.f, 50.f);
+	}
+	
+
+	player.GetBody()->SetLinearVelocity(speed * vel);
 }
 
 void AnimationSpritePlayground::KeyboardDown()

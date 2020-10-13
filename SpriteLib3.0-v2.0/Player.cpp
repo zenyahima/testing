@@ -5,22 +5,18 @@ Player::Player()
 }
 
 Player::Player(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, 
-	AnimationController* controller, Transform* transform, bool hasPhys, PhysicsBody* body)
+	AnimationController* controller, Transform* transform)
 {
-	InitPlayer(fileName, animationJSON, width, height, sprite, controller, transform, hasPhys, body);
+	InitPlayer(fileName, animationJSON, width, height, sprite, controller, transform);
 }
 
-void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys, PhysicsBody* body)
+void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, AnimationController* controller, Transform* transform)
 {
 	//store references to the components
 	m_sprite = sprite;
 	m_animController = controller;
 	m_transform = transform;
-	m_hasPhysics = hasPhys;
-	if (hasPhys)
-	{
-		m_physBody = body;
-	}
+	
 	//initialize UVs
 	m_animController->InitUVs(fileName);
 
