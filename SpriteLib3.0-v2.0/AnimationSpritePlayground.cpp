@@ -1,13 +1,49 @@
 #include "AnimationSpritePlayground.h"
 #include "Utilities.h"
+//global variable
+int numFootContacts;
+class MyContactListener : public b2ContactListener
+{
+	void BeginContact(b2Contact* contact) {
+		//std::cout << "this is running" << std::endl;
+		//check if fixture A was the foot sensor
+		//void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+		//if ((int)fixtureUserData == 3)
+		//	numFootContacts++;
+		////check if fixture B was the foot sensor
+		//fixtureUserData = contact->GetFixtureB()->GetUserData();
+		//if ((int)fixtureUserData == 3)
+		//	numFootContacts++;
+		numFootContacts++;
+		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(false);
+	}
+
+	void EndContact(b2Contact* contact) {
+		//std::cout << "this is running 2" << std::endl;
+		//check if fixture A was the foot sensor
+		//void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+		//if ((int)fixtureUserData == 3)
+		//	numFootContacts--;
+		////check if fixture B was the foot sensor
+		//fixtureUserData = contact->GetFixtureB()->GetUserData();
+		//if ((int)fixtureUserData == 3)
+		//	numFootContacts--;
+		numFootContacts--;
+		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(true);
+	}
+};
+
+MyContactListener myContactListenerInstance;
 
 AnimationSpritePlayground::AnimationSpritePlayground(std::string name)
 	:Scene(name)
 {
-
+	
 	//no gravity this is a top down scene
-	m_gravity = b2Vec2(0.f, -800.f);
+	m_gravity = b2Vec2(0.f, -400.f);
 	m_physicsWorld->SetGravity(m_gravity);
+	
+	m_physicsWorld->SetContactListener(&myContactListenerInstance);
 
 }
 
@@ -15,6 +51,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 {
 	//dynamically allocates the register
 	m_sceneReg = new entt::registry;
+	numFootContacts = 0;
 
 	ECS::AttachRegister(m_sceneReg);
 
@@ -88,10 +125,30 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		tempDef.position.Set(float32(0.f), float32(30.f));
 		//tempDef.angle = Transform::ToRadians(45.f);
 
+		//shape definition for main fixture
+		b2PolygonShape polygonShape;
+		polygonShape.SetAsBox(1, 2);
+
+		//fixture definition
+		b2FixtureDef myFixtureDef;
+		myFixtureDef.shape = &polygonShape;
+		myFixtureDef.density = 1;
+
+
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		
 
 		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
 		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
+		//add main fixture
+		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
+		
+
+		//add foot sensor fixture
+		polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0, -2), 0);
+		myFixtureDef.isSensor = true;
+		b2Fixture* footSensorFixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
+		footSensorFixture->SetUserData((void*)3);
 
 
 	}
@@ -121,9 +178,23 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		tempDef.type = b2_staticBody;
 		tempDef.position.Set(float32(30.f), float32(-20.f));
 
+		////shape definition
+		//b2PolygonShape polygonShape;
+		//polygonShape.SetAsBox(1, 1);
+		////fixture definition
+		//b2FixtureDef myFixtureDef;
+		//myFixtureDef.shape = &polygonShape;
+		//myFixtureDef.density = 1;
+
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
+		//add main fixture
+		//myFixtureDef.isSensor = true;
+		//b2Fixture* fixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
+		//fixture->SetUserData((void*)1);
+		//polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0, -2), 0);
+
 
 	}
 
@@ -145,8 +216,8 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
+		float shrinkX = 0;
+		float shrinkY = 0();
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
@@ -240,36 +311,69 @@ void AnimationSpritePlayground::KeyboardHold()
 	float speed = 10.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
-	if (Input::GetKey(Key::Shift))
-	{
-		speed *= 7.f;
-	}
+	
+		if (Input::GetKey(Key::Shift))
+		{
+			speed *= 7.f;
+		}
 
-	/*if (Input::GetKey(Key::W))
-	{
-		vel += b2Vec2(0.f, 1.f);
-	}*/
-	/*if (Input::GetKey(Key::S))
-	{
-		vel += b2Vec2(0.f, -1.f);
-	}*/
+		/*if (Input::GetKey(Key::W))
+		{
+			vel += b2Vec2(0.f, 1.f);
+		}*/
+		/*if (Input::GetKey(Key::S))
+		{
+			vel += b2Vec2(0.f, -1.f);
+		}*/
 
-	if (Input::GetKey(Key::A))
-	{
-		vel += b2Vec2(-1.f, 0.f);
-	}
-	if (Input::GetKey(Key::D))
-	{
-		vel += b2Vec2(1.f, 0.f);
-	}
-	if (Input::GetKey(Key::Space))
-	{
-		vel += b2Vec2(0.f, 50.f);
-	}
+		if (Input::GetKey(Key::A))
+
+		{
+			//if (numFootContacts >= 1) 
+			{
+				vel += b2Vec2(-1.f, 0.f);
+				player.GetBody()->SetLinearVelocity(speed * vel);
+								
+			}
+			//else
+			{
+				//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetMoving(false);
+			}
+		}
+		if (Input::GetKey(Key::D))
+		{
+			//if (numFootContacts >= 1) 
+			{
+				vel += b2Vec2(1.f, 0.f);
+				player.GetBody()->SetLinearVelocity(speed * vel);
+				
+				
+			}
+			//else
+			{
+				//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetMoving(false);
+
+			}
+		}
+		if (Input::GetKey(Key::Space))
+		{
+			if (numFootContacts >= 1)
+			{
+				//force of the jump
+				float impulse = player.GetMass() * 1000;
+				//each time step the force is applied, gravity gets a chance to push back
+				player.GetBody()->ApplyLinearImpulse(b2Vec2(0, impulse), player.GetBody()->GetWorldCenter(), true);
+
+				ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetMoving(false);
+				ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(true);
+				ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetJumping(true);
+			}
 
 
-	player.GetBody()->SetLinearVelocity(speed * vel);
-}
+		}
+
+	}
+	
 
 void AnimationSpritePlayground::KeyboardDown()
 {

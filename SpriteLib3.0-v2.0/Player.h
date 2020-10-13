@@ -72,7 +72,11 @@ public:
 	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, Sprite* sprite, AnimationController* controller, Transform* transform);
 
 	void Update();
+	bool IsLocked();
 	void MovementUpdate();
+	void SetMoving(bool move);
+	void SetLocked(bool lock);
+	void SetJumping(bool jump);
 	void AnimationUpdate();
 private:
 	void SetActiveAnimation(int anim);
