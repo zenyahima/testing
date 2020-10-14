@@ -18,6 +18,7 @@ public:
 	
 	
 	void Unload();
+	bool physics;
 
 	//Each scene will need to have a different
 	//init, as each scene's contents will be different

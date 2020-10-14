@@ -55,6 +55,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	//dynamically allocates the register
 	m_sceneReg = new entt::registry;
 	numFootContacts = 0;
+	physics = true;
 
 	ECS::AttachRegister(m_sceneReg);
 
@@ -200,21 +201,36 @@ void AnimationSpritePlayground::Update()
 	player.Update();
 	
 	
+	
 }
 
 void AnimationSpritePlayground::KeyboardHold()
 {
 
+
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	float speed = 10.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
+	//togle to physics movement
+	if (Input::GetKey(Key::Q))
+	{
+		physics = true;
+	}
+	//togle to direct movement
+	if (Input::GetKey(Key::E))
+	{
+		physics = false;
+	}
 	
-		if (Input::GetKey(Key::Shift))
-		{
-			speed *= 7.f;
-		}
+	if (Input::GetKey(Key::Shift))
+	{
+		speed *= 7.f;
+	}
 
+	if (physics)
+	{
+		
 		/*if (Input::GetKey(Key::W))
 		{
 			vel += b2Vec2(0.f, 1.f);
@@ -231,7 +247,7 @@ void AnimationSpritePlayground::KeyboardHold()
 			{
 				vel += b2Vec2(-1.f, 0.f);
 				player.GetBody()->SetLinearVelocity(speed * vel);
-								
+
 			}
 			//else
 			{
@@ -244,8 +260,8 @@ void AnimationSpritePlayground::KeyboardHold()
 			{
 				vel += b2Vec2(1.f, 0.f);
 				player.GetBody()->SetLinearVelocity(speed * vel);
-				
-				
+
+
 			}
 			//else
 			{
@@ -269,16 +285,35 @@ void AnimationSpritePlayground::KeyboardHold()
 
 
 		}
-		
-		std::cout << player.GetPosition().x << " " << player.GetPosition().y << std::endl;
-		//player.GetPosition().y
-
-		if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f)
-		{
-			MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
-			exit(0);
-		}
 	}
+	else
+	{
+		if (Input::GetKey(Key::A))
+		{
+			player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x - (speed * Timer::deltaTime)), player.GetPosition().y), 0);
+		}
+		if (Input::GetKey(Key::D))
+		{
+			player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x + (speed * Timer::deltaTime)), player.GetPosition().y), 0);
+		}
+		if (Input::GetKey(Key::W))
+		{
+			player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y + (speed*Timer::deltaTime))), 0);
+		}
+		if (Input::GetKey(Key::S))
+		{
+			player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y - (speed*Timer::deltaTime))), 0);
+		}
+
+	}
+	
+	if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f)
+	{
+		MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
+		exit(0);
+	}
+	
+}
 	
 
 void AnimationSpritePlayground::KeyboardDown()
