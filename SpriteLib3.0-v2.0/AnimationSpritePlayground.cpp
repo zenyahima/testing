@@ -151,7 +151,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		
 		myFixtureDef.isSensor = true;
 		b2Fixture* footSensorFixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
-		footSensorFixture->SetUserData((void*)0);
+		footSensorFixture->SetUserData((void*)1);
 
 
 	}
