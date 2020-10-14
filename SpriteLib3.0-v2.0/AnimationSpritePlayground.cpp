@@ -1,5 +1,6 @@
 #include "AnimationSpritePlayground.h"
 #include "Utilities.h"
+#include "Timer.h"
 //global variable
 int numFootContacts;
 class MyContactListener : public b2ContactListener
