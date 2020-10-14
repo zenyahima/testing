@@ -6,13 +6,15 @@ class MyContactListener : public b2ContactListener
 {
 	void BeginContact(b2Contact* contact) {
 		//std::cout << "this is running" << std::endl;
-		//check if fixture A was the foot sensor
+		////check if fixture A was the foot sensor
 		//void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-		//if ((int)fixtureUserData == 3)
+		//std::cout << int(fixtureUserData) << std::endl;
+		//if ((int)fixtureUserData == 0)
 		//	numFootContacts++;
 		////check if fixture B was the foot sensor
 		//fixtureUserData = contact->GetFixtureB()->GetUserData();
-		//if ((int)fixtureUserData == 3)
+		//std::cout << int(fixtureUserData) << std::endl;
+		//if ((int)fixtureUserData ==0)
 		//	numFootContacts++;
 		numFootContacts++;
 		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(false);
@@ -20,13 +22,15 @@ class MyContactListener : public b2ContactListener
 
 	void EndContact(b2Contact* contact) {
 		//std::cout << "this is running 2" << std::endl;
-		//check if fixture A was the foot sensor
+		////check if fixture A was the foot sensor
 		//void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-		//if ((int)fixtureUserData == 3)
+		//std::cout << int(fixtureUserData) << std::endl;
+		//if ((int)fixtureUserData == 0)
 		//	numFootContacts--;
 		////check if fixture B was the foot sensor
 		//fixtureUserData = contact->GetFixtureB()->GetUserData();
-		//if ((int)fixtureUserData == 3)
+		//std::cout << int(fixtureUserData) << std::endl;
+		//if ((int)fixtureUserData == 0)
 		//	numFootContacts--;
 		numFootContacts--;
 		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(true);
@@ -124,30 +128,30 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		tempDef.position.Set(float32(0.f), float32(30.f));
 		//tempDef.angle = Transform::ToRadians(45.f);
 
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		
+
+		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
+		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
+		////add main fixture
+		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
+		
+
 		//shape definition for main fixture
 		b2PolygonShape polygonShape;
-		polygonShape.SetAsBox(1, 2);
+		polygonShape.SetAsBox(6, 8, b2Vec2(0, -8), 0);
+		/*polygonShape.SetAsBox(1, 2);*/
 
 		//fixture definition
 		b2FixtureDef myFixtureDef;
 		myFixtureDef.shape = &polygonShape;
 		myFixtureDef.density = 1;
 
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-		
-
-		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
-		//add main fixture
-		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
-		
-
 		//add foot sensor fixture
-		polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0, -2), 0);
+		
 		myFixtureDef.isSensor = true;
 		b2Fixture* footSensorFixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
-		footSensorFixture->SetUserData((void*)3);
+		footSensorFixture->SetUserData((void*)0);
 
 
 	}
