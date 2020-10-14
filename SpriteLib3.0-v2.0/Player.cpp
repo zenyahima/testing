@@ -61,15 +61,7 @@ void Player::Update()
 		MovementUpdate();
 	}
 	AnimationUpdate();
-	//std::cout << m_transform->GetPositionX() << " " << m_transform->GetPositionY() << std::endl;
-	//trigger to check if level is finished
-	if (m_transform->GetPositionX() >= -28.71f && m_transform->GetPositionX() <= -32.f && m_transform->GetPositionY() == 0.f)
-	{
-		MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
-		exit(0);
-	}
 	
-
 }
 bool Player::IsLocked()
 {
