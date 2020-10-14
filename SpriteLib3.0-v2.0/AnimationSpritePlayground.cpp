@@ -87,7 +87,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "flag.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 307.f, 0.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 407.f, 0.f));
 
 	}
 
@@ -160,26 +160,28 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::BoxMaker(10, 2000, -125, -0, 0, 0);
 	Scene::BoxMaker(10, 2000, 125, 0, 0, 0);
 
+	float i = 5;
+
 	//platforms
-	Scene::BoxMaker(20, 3, -75, 25, 0, 1);
-	Scene::BoxMaker(20, 3, -25, 40, 0, 1);
-	Scene::BoxMaker(20, 3, -75, 55, 0, 1);
-	Scene::BoxMaker(20, 3, -25, 70, 0, 1);
-	Scene::BoxMaker(20, 3, 25, 85, 0, 1);
-	Scene::BoxMaker(20, 3, 75, 85, 0, 1);
-	Scene::BoxMaker(20, 3, 105, 105, 0, 1);
-	Scene::BoxMaker(20, 3, 65, 125, 0, 1);
-	Scene::BoxMaker(20, 3, 35, 145, 0, 1);
-	Scene::BoxMaker(20, 3, -20, 145, 0, 1);
-	Scene::BoxMaker(5, 3, -55, 160, 0, 1);
-	Scene::BoxMaker(5, 3, -90, 175, 0, 1);
-	Scene::BoxMaker(20, 3, -40, 190, 0, 1);
-	Scene::BoxMaker(70, 3, 40, 205, 0, 1);
-	Scene::BoxMaker(20, 3, 105, 220, 0, 1);
-	Scene::BoxMaker(20, 3, 70, 240, 0, 1);
-	Scene::BoxMaker(20, 3, 35, 255, 0, 1);
-	Scene::BoxMaker(40, 3, -15, 275, 325, 1);
-	Scene::BoxMaker(60, 3, -80, 300, 0, 1);
+	Scene::BoxMaker(20, 3, -75, 25 + i, 0, 1);
+	Scene::BoxMaker(20, 3, -25, 45 + (i * 2), 0, 1);
+	Scene::BoxMaker(20, 3, -75, 60 + (i * 3), 0, 1);
+	Scene::BoxMaker(20, 3, -25, 75 + (i * 4), 0, 1);
+	Scene::BoxMaker(20, 3, 25, 90 + (i * 5), 0, 1);
+	Scene::BoxMaker(20, 3, 75, 90 + (i * 6), 0, 1);
+	Scene::BoxMaker(20, 3, 105, 110 + (i * 7), 0, 1);
+	Scene::BoxMaker(20, 3, 65, 130 + (i * 8), 0, 1);
+	Scene::BoxMaker(20, 3, 35, 150 + (i * 9), 0, 1);
+	Scene::BoxMaker(20, 3, -20, 150 + (i * 10), 0, 1);
+	Scene::BoxMaker(5, 3, -55, 165 + (i * 11), 0, 1);
+	Scene::BoxMaker(5, 3, -90, 180 + (i * 12), 0, 1);
+	Scene::BoxMaker(20, 3, -40, 195 + (i * 13), 0, 1);
+	Scene::BoxMaker(70, 3, 40, 210 + (i * 14), 0, 1);
+	Scene::BoxMaker(20, 3, 105, 225 + (i * 15), 0, 1);
+	Scene::BoxMaker(20, 3, 70, 245 + (i * 16), 0, 1);
+	Scene::BoxMaker(20, 3, 35, 260 + (i * 17), 0, 1);
+	Scene::BoxMaker(40, 3, -15, 280 + (i * 18), 325, 1);
+	Scene::BoxMaker(60, 3, -80, 305 + (i * 19), 0, 1);
 	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
