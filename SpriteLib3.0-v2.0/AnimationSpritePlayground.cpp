@@ -1,5 +1,6 @@
 #include "AnimationSpritePlayground.h"
 #include "Utilities.h"
+#include "Timer.h"
 //global variable
 int numFootContacts;
 class MyContactListener : public b2ContactListener
@@ -270,7 +271,7 @@ void AnimationSpritePlayground::KeyboardHold()
 
 		}
 		
-		std::cout << player.GetPosition().x << " " << player.GetPosition().y << std::endl;
+		std::cout << player.GetPosition().x << " " << player.GetPosition().y << " " << Timer::time << std::endl;
 		//player.GetPosition().y
 
 		if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f)
