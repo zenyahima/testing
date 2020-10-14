@@ -198,6 +198,8 @@ void AnimationSpritePlayground::Update()
 	auto& player = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 	Scene::AdjustScrollOffset();
 	player.Update();
+	
+	
 }
 
 void AnimationSpritePlayground::KeyboardHold()
@@ -267,7 +269,15 @@ void AnimationSpritePlayground::KeyboardHold()
 
 
 		}
+		
+		std::cout << player.GetPosition().x << " " << player.GetPosition().y << std::endl;
+		//player.GetPosition().y
 
+		if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f)
+		{
+			MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
+			exit(0);
+		}
 	}
 	
 
