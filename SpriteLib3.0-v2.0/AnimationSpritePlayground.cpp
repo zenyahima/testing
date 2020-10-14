@@ -158,7 +158,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	//
 	//ground
-	Scene::BoxMaker(450, 35, 30, -20, 0, 1); 
+	Scene::BoxMaker(250, 35, 0, -20, 0, 1); 
 
 	//boundaries
 	Scene::BoxMaker(10, 2000, -125, -0, 0, 0);
