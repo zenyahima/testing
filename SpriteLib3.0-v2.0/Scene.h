@@ -19,6 +19,10 @@ public:
 	
 	void Unload();
 	bool physics;
+	bool display;
+	double time = 0;
+	bool graph1;
+	
 
 	//Each scene will need to have a different
 	//init, as each scene's contents will be different

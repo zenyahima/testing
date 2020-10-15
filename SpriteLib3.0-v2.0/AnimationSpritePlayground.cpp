@@ -5,7 +5,12 @@
 
 //global variable
 int numFootContacts;
+<<<<<<< HEAD
 
+=======
+double speed =0.f;
+double incrementspeed = 0;
+>>>>>>> develop
 class MyContactListener : public b2ContactListener
 {
 	void BeginContact(b2Contact* contact) {
@@ -60,7 +65,12 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	m_sceneReg = new entt::registry;
 	numFootContacts = 0;
 	physics = true;
+<<<<<<< HEAD
 	display = true;
+=======
+	display = false;
+	graph1 = true;
+>>>>>>> develop
 
 	ECS::AttachRegister(m_sceneReg);
 
@@ -173,7 +183,11 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		b2Fixture* footSensorFixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
 		footSensorFixture->SetUserData((void*)1);
 		
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> develop
 	}
 
 	//
@@ -253,10 +267,18 @@ void AnimationSpritePlayground::Update()
 	player.Update();
 	if (display)
 	{
+<<<<<<< HEAD
 		float time = Timer::time;
 		vec3 velocity = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetVelocity();
 		float speed = sqrt((velocity.x) * (velocity.x) + (velocity.y) * (velocity.y));
 		std::cout << time << " s, " << speed << " m/s. \n";
+=======
+		time = Timer::time;
+		//vec3 velocity = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetVelocity();
+		//float speed = sqrt((velocity.x) * (velocity.x) + (velocity.y) * (velocity.y));
+		std::cout << time << " , " << speed << "  \n";
+
+>>>>>>> develop
 	}
 	
 	//conditions for moving platform
@@ -277,7 +299,7 @@ void AnimationSpritePlayground::KeyboardHold()
 
 
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	float speed = 10.f;
+	//float speed = 10.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
 	//togle to physics movement
@@ -296,9 +318,19 @@ void AnimationSpritePlayground::KeyboardHold()
 		speed *= 7.f;
 	}
 
+	if (Input::GetKey(Key::G)) //switch between graphs
+	{
+		graph1 = true;
+	}
+	if (Input::GetKey(Key::H))
+	{
+		graph1 = false;
+	}
+
 	if (physics)
 	{
 
+<<<<<<< HEAD
 		/*if (Input::GetKey(Key::W))
 		{
 			vel += b2Vec2(0.f, 1.f);
@@ -307,36 +339,32 @@ void AnimationSpritePlayground::KeyboardHold()
 		{
 			vel += b2Vec2(0.f, -1.f);
 		}*/
+=======
+
+>>>>>>> develop
 
 		if (Input::GetKey(Key::A))
 
 		{
-			//if (numFootContacts >= 1) 
-			{
-				vel += b2Vec2(-1.f, 0.f);
-				player.GetBody()->SetLinearVelocity(speed * vel);
 
-			}
-			//else
-			{
-				//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetMoving(false);
-			}
+			vel += b2Vec2(-1.f, 0.f);
+
+			//player.GetBody()->ApplyLinearImpulse(b2Vec2(-(player.GetMass()*100), 0), player.GetBody()->GetWorldCenter(), true);
+
+			player.GetBody()->SetLinearVelocity(speed * vel);
 		}
+
+
 		if (Input::GetKey(Key::D))
 		{
-			//if (numFootContacts >= 1) 
-			{
-				vel += b2Vec2(1.f, 0.f);
-				player.GetBody()->SetLinearVelocity(speed * vel);
 
+			vel += b2Vec2(1.f, 0.f);
+			//player.GetBody()->ApplyLinearImpulse(b2Vec2(player.GetMass()*100, 0), player.GetBody()->GetWorldCenter(), true);
+			player.GetBody()->SetLinearVelocity(speed * vel);
 
-			}
-			//else
-			{
-				//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetMoving(false);
-
-			}
 		}
+
+
 		if (Input::GetKey(Key::Space))
 		{
 			if (numFootContacts >= 1)
@@ -345,6 +373,7 @@ void AnimationSpritePlayground::KeyboardHold()
 				float impulse = player.GetMass() * 1000;
 				//each time step the force is applied, gravity gets a chance to push back
 				player.GetBody()->ApplyLinearImpulse(b2Vec2(0, impulse), player.GetBody()->GetWorldCenter(), true);
+				//player.GetBody()->ApplyForce(b2Vec2(0, impulse), player.GetBody()->GetWorldCenter(), true);
 
 				ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetMoving(false);
 				ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(true);
@@ -353,23 +382,96 @@ void AnimationSpritePlayground::KeyboardHold()
 
 
 		}
+		if (graph1)
+		{
+			if (ECS::GetComponent<Player>(MainEntities::MainPlayer()).IsMoving())
+			{
+				incrementspeed += 0.2; //changes how many points we get
+				if (incrementspeed < 2.5) //section 1
+				{
+					speed = sqrt(incrementspeed) * 2; //divide or multiply to make graph look steeper/shallower
+				}
+				if (incrementspeed > 6.25) //section 3
+				{
+					speed = pow(speed, 1.02); //exponential graph
+
+				}
+				if (incrementspeed > 30) //max increment
+				{
+					incrementspeed = 30;
+				}
+				if (speed > 6) //maxspeed
+				{
+					speed = 6;
+				}
+			}
+			else
+			{
+				if (speed > 0) { // slope of last section
+
+					speed -= 0.3;
+				}
+				if (incrementspeed > 0) {
+					incrementspeed = 0;
+				}
+				if (speed <= 0) { //ensure speed isnt negative
+					speed = 0;
+				}
+			}
+		}
+		else //graph 2
+		{
+			if (ECS::GetComponent<Player>(MainEntities::MainPlayer()).IsMoving())
+			{
+				
+				speed += 0.8; //first slope
+				if (speed > 9.6) //max speed
+				{
+					speed = 9.6;
+				}
+			}
+			else //not moving
+			{
+				if (speed > 0)
+				{
+					speed-= 0.8; //second slope
+				}
+				if (speed <= 0) { //ensure speed isnt negative
+					speed = 0;
+				}
+			}
+		}
+
 	}
-	else
-	{
-		if (Input::GetKey(Key::A))
+		else //no physics
 		{
-			player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x - (speed * Timer::deltaTime)), player.GetPosition().y), 0);
-		}
-		if (Input::GetKey(Key::D))
-		{
-			player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x + (speed * Timer::deltaTime)), player.GetPosition().y), 0);
-		}
-		if (Input::GetKey(Key::W))
-		{
+<<<<<<< HEAD
 			player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y + (speed * Timer::deltaTime))), 0);
+=======
+			if (Input::GetKey(Key::A))
+			{
+				player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x - (speed * Timer::deltaTime)), player.GetPosition().y), 0);
+			}
+			if (Input::GetKey(Key::D))
+			{
+				player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x + (speed * Timer::deltaTime)), player.GetPosition().y), 0);
+			}
+			if (Input::GetKey(Key::W))
+			{
+				player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y + (speed * Timer::deltaTime))), 0);
+			}
+			if (Input::GetKey(Key::S))
+			{
+				player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y - (speed * Timer::deltaTime))), 0);
+			}
+
+>>>>>>> develop
 		}
-		if (Input::GetKey(Key::S))
+
+
+		if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f) //trigger for end of level
 		{
+<<<<<<< HEAD
 			player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y - (speed * Timer::deltaTime))), 0);
 		}
 
@@ -391,6 +493,23 @@ void AnimationSpritePlayground::KeyboardHold()
 	{
 		display = false;
 	}
+=======
+			MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
+			exit(0);
+		}
+
+		//turn on time/velocity output
+		if (Input::GetKey(Key::Z))
+		{
+			display = true;
+		}
+		//turn off output
+		if (Input::GetKey(Key::X))
+		{
+			display = false;
+		}
+	
+>>>>>>> develop
 }
 
 
