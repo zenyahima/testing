@@ -5,7 +5,6 @@
 
 //global variable
 int numFootContacts;
-int platformSpeed = 10;
 
 class MyContactListener : public b2ContactListener
 {
@@ -87,6 +86,20 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 
 	}
+	 
+	//backdrop
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		std::string fileName = "sprite_NorthWindShrineBG.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 250,515);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 250.f, -1.f));
+
+	}
 
 	//setup end of level Flag
 	{
@@ -165,7 +178,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 	//
 	//ground
-	Scene::BoxMaker(250, 35, 0, -20, 0, 1); 
+	Scene::BoxMaker(250, 50, 0, -17, 0, 1); 
 
 	//boundaries
 	Scene::BoxMaker(10, 2000, -125, -0, 0, 0);
@@ -183,7 +196,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::BoxMaker(20, 3, 105, 105 + (i * 7), 0, 1);
 	Scene::BoxMaker(20, 3, 65, 125 + (i * 8), 0, 1);
 	Scene::BoxMaker(20, 3, 35, 145 + (i * 9), 0, 1);
-	//Scene::BoxMaker(20, 3, -20, 145 + (i * 10), 0, 1);
+	//Scene::BoxMaker(20, 3, -20, 145 + (i * 10), 0, 1); 
 	Scene::BoxMaker(5, 3, -55, 160 + (i * 11), 0, 1);
 	Scene::BoxMaker(5, 3, -90, 175 + (i * 12), 0, 1);
 	Scene::BoxMaker(20, 3, -40, 195 + (i * 13), 0, 1);
@@ -194,6 +207,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::BoxMaker(40, 3, -15, 275 + (i * 18), 325, 1);
 	Scene::BoxMaker(60, 3, -80, 300 + (i * 19), 0, 1);
 	
+	//MOVING PLATFORM
 	{
 		auto entity = ECS::CreateEntity();
 		ECS::SetIsMovingPlatform(entity, true);
@@ -219,30 +233,22 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		tempDef.position.Set(float32(-20), float32(195));
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1);
 		tempDef.angle = Transform::ToRadians(0);
-		tempDef.linearVelocity.Set(15, 0.0f);
-		
-		
+		tempDef.linearVelocity.Set(15, 0.0f);	
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-
 	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-//
-//
 }
 
 void AnimationSpritePlayground::Update()
 {
 	auto& player = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 	auto& entity = ECS::GetComponent<PhysicsBody>(MainEntities::MovingPlatform());
-
-	
-	b2BodyDef tempDef;
-	
+		
 	Scene::AdjustScrollOffset();
 	player.Update();
 	if (display)
@@ -251,9 +257,9 @@ void AnimationSpritePlayground::Update()
 		vec3 velocity = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetVelocity();
 		float speed = sqrt((velocity.x) * (velocity.x) + (velocity.y) * (velocity.y));
 		std::cout << time << " s, " << speed << " m/s. \n";
-		//tempDef.linearVelocity.Set(-10, 0.0f);
 	}
 	
+	//conditions for moving platform
 	if (ECS::GetComponent<PhysicsBody>(MainEntities::MovingPlatform()).GetPosition().x >= -5)
 	{
 		entity.GetBody()->SetLinearVelocity(b2Vec2(-15.f, 0.f));
