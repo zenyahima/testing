@@ -63,9 +63,9 @@ void Player::Update()
 	AnimationUpdate();
 	
 }
-bool Player::IsLocked()
+bool Player::IsMoving()
 {
-	return m_locked;
+	return m_moving;
 }
 
 void Player::MovementUpdate()
