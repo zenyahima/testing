@@ -78,6 +78,7 @@ void Scene::Update()
 	/*auto& tempSpr = m_sceneReg->get<Sprite>(m_helloWorldSign);
 	
 	tempSpr.SetTransparency((0.5 * sin(Timer::time * 3.f)) + 0.5f);*/
+	
 }
 
 void Scene::AdjustScrollOffset()
