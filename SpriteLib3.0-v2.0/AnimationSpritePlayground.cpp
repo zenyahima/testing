@@ -193,7 +193,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<PhysicsBody>(entity);
 
 		//Sets up components 
-		std::string fileName = "ground.png";
+		std::string fileName = "2dplatform.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 3);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
 
