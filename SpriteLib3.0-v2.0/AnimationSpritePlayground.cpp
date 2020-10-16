@@ -86,10 +86,10 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "flag.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15);
+		std::string fileName = "flag2.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 15);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 403.f, 0.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 404.f, 0.f));
 
 	}
 
