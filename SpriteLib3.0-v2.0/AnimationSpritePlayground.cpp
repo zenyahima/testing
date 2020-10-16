@@ -200,7 +200,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::BoxMaker(20, 3, 35, 145 + (i * 9), 0, 1);
 	//Scene::BoxMaker(20, 3, -20, 145 + (i * 10), 0, 1); 
 	Scene::BoxMaker(12, 3, -55, 160 + (i * 11), 0, 1);
-	Scene::BoxMaker(15, 3, -75, 185 + (i * 12), 0, 1);
+	Scene::BoxMaker(15, 3, -75, 175 + (i * 12), 0, 1);
 	Scene::BoxMaker(20, 3, -30, 195 + (i * 13), 0, 1);
 	Scene::BoxMaker(70, 3, 40, 205 + (i * 14), 0, 1);
 	Scene::BoxMaker(20, 3, 105, 220 + (i * 15), 0, 1);
