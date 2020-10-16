@@ -10,35 +10,11 @@ double incrementspeed = 0;
 class MyContactListener : public b2ContactListener
 {
 	void BeginContact(b2Contact* contact) {
-		//std::cout << "this is running" << std::endl;
-		////check if fixture A was the foot sensor
-		//void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-		//std::cout << int(fixtureUserData) << std::endl;
-		//if ((int)fixtureUserData == 0)
-		//	numFootContacts++;
-		////check if fixture B was the foot sensor
-		//fixtureUserData = contact->GetFixtureB()->GetUserData();
-		//std::cout << int(fixtureUserData) << std::endl;
-		//if ((int)fixtureUserData ==0)
-		//	numFootContacts++;
 		numFootContacts++;
-		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(false);
 	}
 
 	void EndContact(b2Contact* contact) {
-		//std::cout << "this is running 2" << std::endl;
-		////check if fixture A was the foot sensor
-		//void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-		//std::cout << int(fixtureUserData) << std::endl;
-		//if ((int)fixtureUserData == 0)
-		//	numFootContacts--;
-		////check if fixture B was the foot sensor
-		//fixtureUserData = contact->GetFixtureB()->GetUserData();
-		//std::cout << int(fixtureUserData) << std::endl;
-		//if ((int)fixtureUserData == 0)
-		//	numFootContacts--;
 		numFootContacts--;
-		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(true);
 	}
 };
 
@@ -155,10 +131,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 
 		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
 		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
-		////add main fixture
-		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
-
-
+		
 		//shape definition for main fixture
 		b2PolygonShape polygonShape;
 		polygonShape.SetAsBox(5, 7, b2Vec2(0, -8), 0);
@@ -174,7 +147,6 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		myFixtureDef.isSensor = true;
 		b2Fixture* footSensorFixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
 		footSensorFixture->SetUserData((void*)1);
-
 
 	}
 
@@ -257,8 +229,6 @@ void AnimationSpritePlayground::Update()
 	{
 
 		time = Timer::time;
-		//vec3 velocity = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetVelocity();
-		//float speed = sqrt((velocity.x) * (velocity.x) + (velocity.y) * (velocity.y));
 		std::cout << time << " , " << speed << "  \n";
 
 
@@ -282,7 +252,6 @@ void AnimationSpritePlayground::KeyboardHold()
 
 
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	//float speed = 10.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
 	//togle to physics movement
@@ -318,9 +287,7 @@ void AnimationSpritePlayground::KeyboardHold()
 
 		{
 
-			vel += b2Vec2(-1.f, 0.f);
-
-			//player.GetBody()->ApplyLinearImpulse(b2Vec2(-(player.GetMass()*100), 0), player.GetBody()->GetWorldCenter(), true);
+			vel += b2Vec2(-1.f, 0.f); //direction
 
 			player.GetBody()->SetLinearVelocity(speed * vel);
 		}
@@ -329,8 +296,7 @@ void AnimationSpritePlayground::KeyboardHold()
 		if (Input::GetKey(Key::D))
 		{
 
-			vel += b2Vec2(1.f, 0.f);
-			//player.GetBody()->ApplyLinearImpulse(b2Vec2(player.GetMass()*100, 0), player.GetBody()->GetWorldCenter(), true);
+			vel += b2Vec2(1.f, 0.f); //direction
 			player.GetBody()->SetLinearVelocity(speed * vel);
 
 		}
@@ -344,7 +310,6 @@ void AnimationSpritePlayground::KeyboardHold()
 				float impulse = player.GetMass() * 100000;
 				//each time step the force is applied, gravity gets a chance to push back
 				player.GetBody()->ApplyLinearImpulse(b2Vec2(0, impulse), player.GetBody()->GetWorldCenter(), true);
-				//player.GetBody()->ApplyForce(b2Vec2(0, impulse), player.GetBody()->GetWorldCenter(), true);
 
 				ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetMoving(false);
 				ECS::GetComponent<Player>(MainEntities::MainPlayer()).SetLocked(true);
@@ -395,17 +360,17 @@ void AnimationSpritePlayground::KeyboardHold()
 			if (ECS::GetComponent<Player>(MainEntities::MainPlayer()).IsMoving())
 			{
 
-				speed += 0.8; //first slope
-				if (speed > 9.6) //max speed
+				speed += 3.2; //first slope
+				if (speed > 38.4) //max speed
 				{
-					speed = 9.6;
+					speed = 38.4;
 				}
 			}
 			else //not moving
 			{
 				if (speed > 0)
 				{
-					speed -= 0.8; //second slope
+					speed -= 3.2; //second slope
 				}
 				if (speed <= 0) { //ensure speed isnt negative
 					speed = 0;
@@ -416,6 +381,7 @@ void AnimationSpritePlayground::KeyboardHold()
 	}
 	else //no physics
 	{
+		speed = 10.f;
 
 		if (Input::GetKey(Key::A))
 		{

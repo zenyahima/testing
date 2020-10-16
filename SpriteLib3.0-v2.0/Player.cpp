@@ -30,12 +30,7 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 
 	//idle animations\\
 
-	/*for (int i = 0; i < animationsNames.size(); i++)
-	{
-	m_animController->AddAnimation(animations[animationsNames[i]].get<Animation>());
-	}*/\
-
-		m_animController->AddAnimation(animations["IdleLeft"].get<Animation>()); //value of 0
+	m_animController->AddAnimation(animations["IdleLeft"].get<Animation>()); //value of 0
 	m_animController->AddAnimation(animations["IdleRight"].get<Animation>()); //value of 1
 	m_animController->AddAnimation(animations["RunLeft"].get<Animation>()); //value of 2+0 = 2
 	m_animController->AddAnimation(animations["RunRight"].get<Animation>()); //value of 2+1 = 3
@@ -47,8 +42,6 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//
 	//		//set default animation
 	m_animController->SetActiveAnim(IDLELEFT);
-	//
-			//m_animController->SetActiveAnim(0);
 }
 
 
@@ -142,23 +135,6 @@ void Player::MovementUpdate()
 			m_moving = true;
 
 		}
-
-		if (Input::GetKeyDown(Key::Space))
-		{
-			////might have to improve this-> will def need to improve
-			//m_transform->SetPositionY(m_transform->GetPositionY() + (speed * Timer::deltaTime));
-			//m_moving = false;
-			///*if (m_hasPhysics)
-			//{
-			//	m_physBody->SetVelocity(vec3());
-
-			//}*/
-			////m_attacking = true;
-			//m_locked = true;
-			//m_jumping = true;
-
-
-		}
 	}
 	
 }
@@ -201,7 +177,6 @@ void Player::AnimationUpdate()
 			activeAnimation = IDLE;
 		}
 	}
-	//might need to change this too
 	else if (m_jumping)
 	{
 		activeAnimation = JUMPUP;
