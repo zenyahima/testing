@@ -118,7 +118,7 @@ void Scene::BoxMaker(int spriteSizeX, int spriteSizeY, float positionX, float po
 	ECS::AttachComponent<PhysicsBody>(entity);
 
 	//Sets up components 
-	std::string fileName = "ground.png";
+	std::string fileName = "2dplatform.png";
 	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, spriteSizeX, spriteSizeY);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 0.f));
 
