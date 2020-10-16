@@ -2,7 +2,7 @@
 
 entt::registry* ECS::m_reg = nullptr;
 
-void ECS::AttachRegister(entt::registry * reg)
+void ECS::AttachRegister(entt::registry* reg)
 {
 	//Attach reference to the registry
 	m_reg = reg;

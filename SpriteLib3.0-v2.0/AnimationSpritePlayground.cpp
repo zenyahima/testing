@@ -5,12 +5,8 @@
 
 //global variable
 int numFootContacts;
-<<<<<<< HEAD
-
-=======
-double speed =0.f;
+double speed = 0.f;
 double incrementspeed = 0;
->>>>>>> develop
 class MyContactListener : public b2ContactListener
 {
 	void BeginContact(b2Contact* contact) {
@@ -51,10 +47,10 @@ MyContactListener myContactListenerInstance;
 AnimationSpritePlayground::AnimationSpritePlayground(std::string name)
 	:Scene(name)
 {
-	
+
 	m_gravity = b2Vec2(0.f, -800.f);
 	m_physicsWorld->SetGravity(m_gravity);
-	
+
 	m_physicsWorld->SetContactListener(&myContactListenerInstance);
 
 }
@@ -65,12 +61,8 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	m_sceneReg = new entt::registry;
 	numFootContacts = 0;
 	physics = true;
-<<<<<<< HEAD
-	display = true;
-=======
 	display = false;
 	graph1 = true;
->>>>>>> develop
 
 	ECS::AttachRegister(m_sceneReg);
 
@@ -96,7 +88,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 
 	}
-	 
+
 	//backdrop
 	{
 		auto entity = ECS::CreateEntity();
@@ -105,7 +97,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		std::string fileName = "sprite_NorthWindShrineBG.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 250,515);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 250, 515);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 250.f, -1.f));
 
@@ -159,13 +151,13 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		//tempDef.angle = Transform::ToRadians(45.f);
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
-		
+
 
 		tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
 		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetFixedRotation(true);
 		////add main fixture
 		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
-		
+
 
 		//shape definition for main fixture
 		b2PolygonShape polygonShape;
@@ -178,21 +170,17 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		myFixtureDef.density = 1;
 
 		//add foot sensor fixture
-		
+
 		myFixtureDef.isSensor = true;
 		b2Fixture* footSensorFixture = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->CreateFixture(&myFixtureDef);
 		footSensorFixture->SetUserData((void*)1);
-		
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> develop
+
 	}
 
 	//
 	//ground
-	Scene::BoxMaker(250, 50, 0, -17, 0, 1); 
+	Scene::BoxMaker(250, 50, 0, -17, 0, 1);
 
 	//boundaries
 	Scene::BoxMaker(10, 2000, -125, -0, 0, 0);
@@ -220,7 +208,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::BoxMaker(20, 3, 35, 255 + (i * 17), 0, 1);
 	Scene::BoxMaker(40, 3, -15, 275 + (i * 18), 325, 1);
 	Scene::BoxMaker(60, 3, -80, 300 + (i * 19), 0, 1);
-	
+
 	//MOVING PLATFORM
 	{
 		auto entity = ECS::CreateEntity();
@@ -247,7 +235,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 		tempDef.position.Set(float32(-20), float32(195));
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1);
 		tempDef.angle = Transform::ToRadians(0);
-		tempDef.linearVelocity.Set(15, 0.0f);	
+		tempDef.linearVelocity.Set(15, 0.0f);
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -262,25 +250,20 @@ void AnimationSpritePlayground::Update()
 {
 	auto& player = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 	auto& entity = ECS::GetComponent<PhysicsBody>(MainEntities::MovingPlatform());
-		
+
 	Scene::AdjustScrollOffset();
 	player.Update();
 	if (display)
 	{
-<<<<<<< HEAD
-		float time = Timer::time;
-		vec3 velocity = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetVelocity();
-		float speed = sqrt((velocity.x) * (velocity.x) + (velocity.y) * (velocity.y));
-		std::cout << time << " s, " << speed << " m/s. \n";
-=======
+
 		time = Timer::time;
 		//vec3 velocity = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetVelocity();
 		//float speed = sqrt((velocity.x) * (velocity.x) + (velocity.y) * (velocity.y));
 		std::cout << time << " , " << speed << "  \n";
 
->>>>>>> develop
+
 	}
-	
+
 	//conditions for moving platform
 	if (ECS::GetComponent<PhysicsBody>(MainEntities::MovingPlatform()).GetPosition().x >= -5)
 	{
@@ -291,7 +274,7 @@ void AnimationSpritePlayground::Update()
 	{
 		entity.GetBody()->SetLinearVelocity(b2Vec2(15.f, 0.f));
 	}
-	
+
 }
 
 void AnimationSpritePlayground::KeyboardHold()
@@ -330,18 +313,6 @@ void AnimationSpritePlayground::KeyboardHold()
 	if (physics)
 	{
 
-<<<<<<< HEAD
-		/*if (Input::GetKey(Key::W))
-		{
-			vel += b2Vec2(0.f, 1.f);
-		}*/
-		/*if (Input::GetKey(Key::S))
-		{
-			vel += b2Vec2(0.f, -1.f);
-		}*/
-=======
-
->>>>>>> develop
 
 		if (Input::GetKey(Key::A))
 
@@ -370,7 +341,7 @@ void AnimationSpritePlayground::KeyboardHold()
 			if (numFootContacts >= 1)
 			{
 				//force of the jump
-				float impulse = player.GetMass() * 1000;
+				float impulse = player.GetMass() * 100000;
 				//each time step the force is applied, gravity gets a chance to push back
 				player.GetBody()->ApplyLinearImpulse(b2Vec2(0, impulse), player.GetBody()->GetWorldCenter(), true);
 				//player.GetBody()->ApplyForce(b2Vec2(0, impulse), player.GetBody()->GetWorldCenter(), true);
@@ -386,12 +357,12 @@ void AnimationSpritePlayground::KeyboardHold()
 		{
 			if (ECS::GetComponent<Player>(MainEntities::MainPlayer()).IsMoving())
 			{
-				incrementspeed += 0.2; //changes how many points we get
-				if (incrementspeed < 2.5) //section 1
+				incrementspeed += 0.8; //changes how many points we get
+				if (incrementspeed < 10) //section 1
 				{
 					speed = sqrt(incrementspeed) * 2; //divide or multiply to make graph look steeper/shallower
 				}
-				if (incrementspeed > 6.25) //section 3
+				if (incrementspeed > 25) //section 3
 				{
 					speed = pow(speed, 1.02); //exponential graph
 
@@ -400,16 +371,16 @@ void AnimationSpritePlayground::KeyboardHold()
 				{
 					incrementspeed = 30;
 				}
-				if (speed > 6) //maxspeed
+				if (speed > 24) //maxspeed
 				{
-					speed = 6;
+					speed = 24;
 				}
 			}
 			else
 			{
 				if (speed > 0) { // slope of last section
 
-					speed -= 0.3;
+					speed -= 1.2;
 				}
 				if (incrementspeed > 0) {
 					incrementspeed = 0;
@@ -423,7 +394,7 @@ void AnimationSpritePlayground::KeyboardHold()
 		{
 			if (ECS::GetComponent<Player>(MainEntities::MainPlayer()).IsMoving())
 			{
-				
+
 				speed += 0.8; //first slope
 				if (speed > 9.6) //max speed
 				{
@@ -434,7 +405,7 @@ void AnimationSpritePlayground::KeyboardHold()
 			{
 				if (speed > 0)
 				{
-					speed-= 0.8; //second slope
+					speed -= 0.8; //second slope
 				}
 				if (speed <= 0) { //ensure speed isnt negative
 					speed = 0;
@@ -443,35 +414,23 @@ void AnimationSpritePlayground::KeyboardHold()
 		}
 
 	}
-		else //no physics
-		{
-<<<<<<< HEAD
-			player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y + (speed * Timer::deltaTime))), 0);
-=======
-			if (Input::GetKey(Key::A))
-			{
-				player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x - (speed * Timer::deltaTime)), player.GetPosition().y), 0);
-			}
-			if (Input::GetKey(Key::D))
-			{
-				player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x + (speed * Timer::deltaTime)), player.GetPosition().y), 0);
-			}
-			if (Input::GetKey(Key::W))
-			{
-				player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y + (speed * Timer::deltaTime))), 0);
-			}
-			if (Input::GetKey(Key::S))
-			{
-				player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y - (speed * Timer::deltaTime))), 0);
-			}
+	else //no physics
+	{
 
->>>>>>> develop
+		if (Input::GetKey(Key::A))
+		{
+			player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x - (speed * Timer::deltaTime)), player.GetPosition().y), 0);
 		}
-
-
-		if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f) //trigger for end of level
+		if (Input::GetKey(Key::D))
 		{
-<<<<<<< HEAD
+			player.GetBody()->SetTransform(b2Vec2((player.GetPosition().x + (speed * Timer::deltaTime)), player.GetPosition().y), 0);
+		}
+		if (Input::GetKey(Key::W))
+		{
+			player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y + (speed * Timer::deltaTime))), 0);
+		}
+		if (Input::GetKey(Key::S))
+		{
 			player.GetBody()->SetTransform(b2Vec2(player.GetPosition().x, (player.GetPosition().y - (speed * Timer::deltaTime))), 0);
 		}
 
@@ -493,27 +452,9 @@ void AnimationSpritePlayground::KeyboardHold()
 	{
 		display = false;
 	}
-=======
-			MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
-			exit(0);
-		}
-
-		//turn on time/velocity output
-		if (Input::GetKey(Key::Z))
-		{
-			display = true;
-		}
-		//turn off output
-		if (Input::GetKey(Key::X))
-		{
-			display = false;
-		}
-	
->>>>>>> develop
 }
 
 
-	
 
 void AnimationSpritePlayground::KeyboardDown()
 {
