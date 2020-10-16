@@ -122,14 +122,14 @@ void Player::MovementUpdate()
 #endif
 		if (Input::GetKey(Key::A))
 		{
-			m_transform->SetPositionX(m_transform->GetPositionX() - (speed * Timer::deltaTime));
+			m_transform->SetPositionX(m_transform->GetPositionX() - (speed * Timer::deltaTime)); //gets overwritten
 			
 			m_facing = LEFT;
 			m_moving = true;
 		}
 		if (Input::GetKey(Key::D))
 		{
-			m_transform->SetPositionX(m_transform->GetPositionX() + (speed * Timer::deltaTime));
+			m_transform->SetPositionX(m_transform->GetPositionX() + (speed * Timer::deltaTime)); //gets overwritten
 			m_facing = RIGHT;
 			
 			m_moving = true;
@@ -161,7 +161,7 @@ void Player::AnimationUpdate()
 		activeAnimation = WALK;
 
 	}
-	else if (m_attacking)
+	else if (m_attacking) //we don't have attack animations
 	{
 		//activeAnimation = ATTACK;
 

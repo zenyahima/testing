@@ -23,7 +23,7 @@ MyContactListener myContactListenerInstance;
 AnimationSpritePlayground::AnimationSpritePlayground(std::string name)
 	:Scene(name)
 {
-
+	//sets gravity
 	m_gravity = b2Vec2(0.f, -800.f);
 	m_physicsWorld->SetGravity(m_gravity);
 
@@ -35,6 +35,7 @@ void AnimationSpritePlayground::InitScene(float windowWidth, float windowHeight)
 {
 	//dynamically allocates the register
 	m_sceneReg = new entt::registry;
+	//initializes some variables
 	numFootContacts = 0;
 	physics = true;
 	display = false;
@@ -402,7 +403,7 @@ void AnimationSpritePlayground::KeyboardHold()
 
 	}
 
-	if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f)
+	if (player.GetPosition().x <= -100.f && player.GetPosition().y >= 403.f) //coords of the flag
 	{
 		MessageBox(NULL, "You completed the level!", "Finish", MB_OK);
 		exit(0);
